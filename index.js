@@ -125,6 +125,10 @@ async function run() {
       const result = await usersCollection.find(query).toArray();
       res.send(result);
     });
+    /**
+     * get isctractor class
+     *
+     */
     app.get("/insclasses/:email", async (req, res) => {
       const email = req.params.email;
       const query = { instructor_email: email };
@@ -132,7 +136,6 @@ async function run() {
       res.send(result);
       // console.log(result);
     });
-
     app.patch("/user/updaterole", async (req, res) => {
       const role = req.query.role;
       const email = req.query.email;
