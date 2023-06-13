@@ -19,8 +19,8 @@ console.log(process.env.DB_PASS); // remove this after
 
 const uri = `mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASS}@cluster0.y4uhtgw.mongodb.net/?retryWrites=true&w=majority`;
 
-const helo = {
-  helo: "Server is running",
+const hello = {
+  hello: "Server is running",
 };
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -41,8 +41,7 @@ async function run() {
     const selectedCollection = client
       .db("summer-school")
       .collection("selectedClasses");
-    await client.connect();
-    await client.db("admin").command({ ping: 1 });
+
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
@@ -184,7 +183,10 @@ async function run() {
 }
 
 app.get("/", (req, res) => {
-  res.send(helo);
+  res.send(hello);
+});
+app.get("/hello", (req, res) => {
+  res.send({ hi: "hi" });
 });
 
 app.listen(port, () => {
