@@ -68,11 +68,12 @@ async function run() {
         .toArray();
       res.send(result);
     });
-    // add selected class class api
-    app.post("/addselectedclass", async (req, res) => {
+
+    // add class
+    app.post("/addclass", async (req, res) => {
       const newData = req.body;
       // const db = await selectedCollection
-      await selectedCollection
+      await classesCollection
         .insertOne(newData)
         .then(() => {
           res.status(201).json({ message: "Data created successfully" });
@@ -83,11 +84,11 @@ async function run() {
 
       // res.send(result);
     });
-    // add class
-    app.post("/addclass", async (req, res) => {
+    // add selected class class api
+    app.post("/addselectedclass", async (req, res) => {
       const newData = req.body;
       // const db = await selectedCollection
-      await classesCollection
+      await selectedCollection
         .insertOne(newData)
         .then(() => {
           res.status(201).json({ message: "Data created successfully" });
