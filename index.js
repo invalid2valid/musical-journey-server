@@ -41,29 +41,26 @@ async function run() {
     const selectedCollection = client
       .db("summer-school")
       .collection("selectedClasses");
-    // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
-    // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
 
     //CRUD
-
+    //get all classes sorted
+    app.get("/classes", async (req, res) => {
+      const result = await classesCollection
+        .find()
+        .sort({ students: -1 })
+        .toArray();
+      res.send(result);
+    });
     //get all approved classes
     app.get("/classesapproved", async (req, res) => {
       const query = { status: "approved" };
       const result = await classesCollection
         .find(query)
-        .sort({ students: -1 })
-        .toArray();
-      res.send(result);
-    });
-    //get all classes sorted
-    app.get("/classes", async (req, res) => {
-      const result = await classesCollection
-        .find()
         .sort({ students: -1 })
         .toArray();
       res.send(result);
@@ -157,16 +154,6 @@ async function run() {
       const result = await usersCollection.updateOne(query, update);
       res.send(result);
     });
-    app.delete("/selectedclasses/:id", async (req, res) => {
-      const id = req.params.id;
-      console.log("id:", id);
-      const objectId = new ObjectId(id); // Convert id to ObjectID
-      const result = await selectedCollection.deleteOne({
-        _id: objectId,
-      });
-      res.send(result);
-      console.log(result);
-    });
 
     app.put("/users/:email", async (req, res) => {
       const email = req.params.email;
@@ -178,6 +165,17 @@ async function run() {
       };
       const result = await usersCollection.updateOne(query, updateDoc, options);
       res.send(result);
+    });
+    //delete classes
+    app.delete("/selectedclasses/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log("id:", id);
+      const objectId = new ObjectId(id); // Convert id to ObjectID
+      const result = await selectedCollection.deleteOne({
+        _id: objectId,
+      });
+      res.send(result);
+      console.log(result);
     });
   } finally {
     // Ensures that the client will close when you finish/error
