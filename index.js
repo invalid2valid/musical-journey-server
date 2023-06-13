@@ -105,8 +105,10 @@ async function run() {
 
       res.send(result);
     });
-    app.get("/selectedclasses", async (req, res) => {
-      const result = await selectedCollection.find().toArray();
+    app.get("/selectedclasses/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { student_email: email };
+      const result = await selectedCollection.find(query).toArray();
       res.send(result);
     });
     app.get("/user/instructors", async (req, res) => {
