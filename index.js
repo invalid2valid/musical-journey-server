@@ -136,14 +136,7 @@ async function run() {
       res.send(result);
       // console.log(result);
     });
-    app.patch("/user/updaterole", async (req, res) => {
-      const role = req.query.role;
-      const email = req.query.email;
-      const query = { email: email };
-      const update = { $set: { role: role } };
-      const result = await usersCollection.updateOne(query, update);
-      res.send(result);
-    });
+
     app.patch("/classstatus/:id", async (req, res) => {
       const id = req.params.id;
       const status = req.query.status;
@@ -153,6 +146,15 @@ async function run() {
       const query = { _id: objectId };
       const update = { $set: { status: status } };
       const result = await classesCollection.updateOne(query, update);
+      res.send(result);
+    });
+    //patch updaterole
+    app.patch("/user/updaterole", async (req, res) => {
+      const role = req.query.role;
+      const email = req.query.email;
+      const query = { email: email };
+      const update = { $set: { role: role } };
+      const result = await usersCollection.updateOne(query, update);
       res.send(result);
     });
     app.delete("/selectedclasses/:id", async (req, res) => {
