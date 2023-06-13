@@ -2,6 +2,7 @@ const express = require("express");
 const { ObjectId } = require("mongodb");
 const cors = require("cors");
 const port = process.env.PORT || 8000;
+require("dotenv").config();
 const app = express();
 const corsOptions = {
   origin: "*",
@@ -15,8 +16,10 @@ const { MongoClient, ServerApiVersion } = require("mongodb");
 
 // summerschool
 // q4JfXxWc4Pxspbdw
-const uri =
-  "mongodb+srv://summerschool:q4JfXxWc4Pxspbdw@cluster0.y4uhtgw.mongodb.net/?retryWrites=true&w=majority";
+console.log(process.env.DB_NAME); // remove this after
+console.log(process.env.DB_PASS); // remove this after
+
+const uri = `mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASS}@cluster0.y4uhtgw.mongodb.net/?retryWrites=true&w=majority`;
 
 const helo = {
   helo: "Server is running",
@@ -178,5 +181,7 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
   console.log(`server is running port ${port}`);
 });
+
+// console.log(process.env.DB_NAME); // remove this after
 
 run().catch(console.dir);
