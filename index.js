@@ -50,20 +50,20 @@ async function run() {
     );
 
     //CRUD
-    //get all classes sorted
-    app.get("/classes", async (req, res) => {
-      const result = await classesCollection
-        .find()
-        .sort({ students: -1 })
-        .toArray();
-      res.send(result);
-    });
 
     //get all approved classes
     app.get("/classesapproved", async (req, res) => {
       const query = { status: "approved" };
       const result = await classesCollection
         .find(query)
+        .sort({ students: -1 })
+        .toArray();
+      res.send(result);
+    });
+    //get all classes sorted
+    app.get("/classes", async (req, res) => {
+      const result = await classesCollection
+        .find()
         .sort({ students: -1 })
         .toArray();
       res.send(result);
@@ -83,6 +83,7 @@ async function run() {
 
       // res.send(result);
     });
+    // add class
     app.post("/addclass", async (req, res) => {
       const newData = req.body;
       // const db = await selectedCollection
@@ -97,11 +98,12 @@ async function run() {
 
       // res.send(result);
     });
-
+    //get all user api
     app.get("/user", async (req, res) => {
       const result = await usersCollection.find().toArray();
       res.send(result);
     });
+    //get a user role
     app.get("/getrole/:email", async (req, res) => {
       const email = req.params.email;
       const query = { email: email };
@@ -110,6 +112,7 @@ async function run() {
 
       res.send(result);
     });
+    //get selected user email
     app.get("/selectedclasses/:email", async (req, res) => {
       const email = req.params.email;
       const query = { student_email: email };
