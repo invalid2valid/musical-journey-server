@@ -14,8 +14,6 @@ app.use(express.json());
 
 const { MongoClient, ServerApiVersion } = require("mongodb");
 
-// summerschool
-// q4JfXxWc4Pxspbdw
 console.log(process.env.DB_NAME); // remove this after
 console.log(process.env.DB_PASS); // remove this after
 
@@ -37,7 +35,7 @@ const client = new MongoClient(uri, {
 // database func
 async function run() {
   try {
-    //colections
+    //colections list
     const classesCollection = client.db("summer-school").collection("classes");
     const usersCollection = client.db("summer-school").collection("users");
     const selectedCollection = client
@@ -52,6 +50,7 @@ async function run() {
     );
 
     //CRUD
+    //get all classes sorted
     app.get("/classes", async (req, res) => {
       const result = await classesCollection
         .find()
@@ -59,6 +58,8 @@ async function run() {
         .toArray();
       res.send(result);
     });
+
+    //get all approved classes
     app.get("/classesapproved", async (req, res) => {
       const query = { status: "approved" };
       const result = await classesCollection
@@ -67,6 +68,7 @@ async function run() {
         .toArray();
       res.send(result);
     });
+    // add selected class class api
     app.post("/addselectedclass", async (req, res) => {
       const newData = req.body;
       // const db = await selectedCollection
